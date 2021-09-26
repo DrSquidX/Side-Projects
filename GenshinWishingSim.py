@@ -18,6 +18,10 @@ class Gacha:
         items = []
         self.wishes += int(rolls)
         self.primosspent += (int(rolls)*160)
+        if self.fivestarpity >= 75:
+            bonus_chance = 10
+        else:
+            bonus_chance = 0
         for i in range(int(rolls)):
             threestar = False
             fourstar = False
@@ -30,15 +34,15 @@ class Gacha:
                 item = random.randint(0, 100)
                 if item in range(1, 100):
                     fourstar = True
-                elif item == 0:
+                elif item in range(0,bonus_chance):
                     fivestar = True
             else:
                 item = random.randint(0, 100)
-                if item in range(11, 100):
+                if item in range(11+bonus_chance, 100):
                     threestar = True
-                elif item in range(1, 10):
+                elif item in range(1+bonus_chance, 10):
                     fourstar = True
-                elif item == 0:
+                elif item in range(0, bonus_chance):
                     fivestar = True
             if threestar:
                 stars = "3"
@@ -77,32 +81,32 @@ class Gacha:
         print(f"\n[+] Results of the {rolls} pull:\n[+] {items}\n\n[+] Wish Stats:\n[+] Wishes: {self.wishes}\n[+] Primos Spent: {self.primosspent}\n[+] 5 Star Pity: {self.fivestarpity}\n[+] 4 Star Pity: {self.fourstarpity}")
 class Main:
     def __init__(self):
-        self.eventbanners = [["Invitation to Mundane Life",["Xiao"],["Beidou","Xinyan","Diona"]],["Dance Of The Lanterns",["Keqing"],["Barbara","Ninguang","Bennet"]],["Moment Of Bloom",["Hu Tao"],["Xiangling","Chongyun","Xinqiu"]],["Ballad in Goblets",["Venti"],["Razor","Sucrose","Noelle"]],["Farewell of Snezhnaya",["Tartaglia"],["Barbara","Fischl","Rosaria"]],["Gentry of Hermitage",["Zhongli"],["Yanfei","Noelle","Diona"]],["Adrift in the Harbor",["Ganyu"],["Xiangling","Xingqiu","Noelle"]]]
+        self.eventbanners = [["Invitation to Mundane Life",["Xiao"],["Beidou","Xinyan","Diona"]],["Dance Of The Lanterns",["Keqing"],["Barbara","Ningguang","Bennet"]],["Moment Of Bloom",["Hu Tao"],["Xiangling","Chongyun","Xinqiu"]],["Ballad in Goblets",["Venti"],["Razor","Sucrose","Noelle"]],["Farewell of Snezhnaya",["Tartaglia"],["Barbara","Fischl","Rosaria"]],["Gentry of Hermitage",["Zhongli"],["Yanfei","Noelle","Diona"]],["Adrift in the Harbor",["Ganyu"],["Xiangling","Xingqiu","Noelle"]],["The Heron's Court",["Ayaka"],["Yanfei","Chongyun","Ningguang"]], ["Reign Of Serenity", ["Raiden Shogun"],["Xiangling","Kujou Sara","Sucrose"]]]
         self.Logo()
         self.Config()
     def Logo(self):
         print("""
-  _____                _     _        __          ___     _     _                _____ _                  __   ___  
- / ____|              | |   (_)       \ \        / (_)   | |   (_)              / ____(_)                /_ | / _ \ 
-| |  __  ___ _ __  ___| |__  _ _ __    \ \  /\  / / _ ___| |__  _ _ __   __ _  | (___  _ _ __ ___   __   _| || | | |
-| | |_ |/ _ \ '_ \/ __| '_ \| | '_ \    \ \/  \/ / | / __| '_ \| | '_ \ / _` |  \___ \| | '_ ` _ \  \ \ / / || | | |
-| |__| |  __/ | | \__ \ | | | | | | |    \  /\  /  | \__ \ | | | | | | | (_| |  ____) | | | | | | |  \ V /| || |_| |
- \_____|\___|_| |_|___/_| |_|_|_| |_|     \/  \/   |_|___/_| |_|_|_| |_|\__, | |_____/|_|_| |_| |_|   \_/ |_(_)___/ 
-                                                                         __/ |                                      
-                                                                        |___/         
+  _____                _     _        __          ___     _     _                _____ _                  ___    ___  
+ / ____|              | |   (_)       \ \        / (_)   | |   (_)              / ____(_)                |__ \  / _ \ 
+| |  __  ___ _ __  ___| |__  _ _ __    \ \  /\  / / _ ___| |__  _ _ __   __ _  | (___  _ _ __ ___   __   __ ) || | | |
+| | |_ |/ _ \ '_ \/ __| '_ \| | '_ \    \ \/  \/ / | / __| '_ \| | '_ \ / _` |  \___ \| | '_ ` _ \  \ \ / // / | | | |
+| |__| |  __/ | | \__ \ | | | | | | |    \  /\  /  | \__ \ | | | | | | | (_| |  ____) | | | | | | |  \ V // /_ | |_| |
+ \_____|\___|_| |_|___/_| |_|_|_| |_|     \/  \/   |_|___/_| |_|_|_| |_|\__, | |_____/|_|_| |_| |_|   \_/|____(_)___/ 
+                                                                         __/ |                                        
+                                                                        |___/                                          
 Wishing Simulator By DrSquid
 """)
     def Config(self):
+        print("[+] Here are all of the character Banners you can wish for: ")
+        for i in self.eventbanners:
+            print(f"\n[+] Banner Name: {i[0]}")
+            print(f"[+] Event 5 Star: {i[1][0]}")
+            print(f"[+] Event 4 Stars: {i[2]}")
         while True:
             properbanner = False
-            print("[+] Here are all of the character Banners: ")
-            for i in self.eventbanners:
-                print(f"\n[+] Banner Name: {i[0]}")
-                print(f"[+] Event 5 Star: {i[1][0]}")
-                print(f"[+] Event 4 Stars: {i[2]}")
             banner = input(f"\n[+] Which banner would you like to wish on?: ")
             for i in self.eventbanners:
-                if banner.strip().lower() in i[0].strip().lower():
+                if banner.strip().lower() == i[0].strip().lower():
                     properbanner = True
                     self.banner = i
                     self.fivestar = self.banner[1]
@@ -115,15 +119,19 @@ Wishing Simulator By DrSquid
                 print("[+] You need to input a proper banner name.")
         self.Wish()
     def Wish(self):
-        print("[+] Close the program to stop wishing.")
+        print("[+] Input 'stop' to wish on another banner.")
         while True:
             try:
-                pulls = int(input("[+] How many pulls would you like to do?(Max 10 at a time): "))
-                if pulls > 10:
+                pulls = input("[+] How many pulls would you like to do?(Max 10 at a time): ")
+                if int(pulls) > 10:
                     pulls = 10
-                elif pulls < 1:
+                elif int(pulls) < 1:
                     pulls = 1
                 self.gacha.Wish(pulls)
             except:
-                print("[+] Please Enter an integer.")
+                if pulls == "stop":
+                    break
+                else:
+                    print("[+] Please Enter an integer.")
+        self.Config()
 Item = Main()
